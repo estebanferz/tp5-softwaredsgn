@@ -13,7 +13,7 @@
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://CareerDB:5432/CareerDB" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://InscriptionDB:5432/InscriptionDB" />
             <property name="jakarta.persistence.jdbc.user" value="admin" />
             <property name="jakarta.persistence.jdbc.password" value="admin" />
 

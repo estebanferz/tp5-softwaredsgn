@@ -8,11 +8,14 @@ import java.util.Map;
 import Modelos.Estudiante;
 import Factories.JPARepositoryFactory;
 import Repositories.EstudianteRepository;
+import Helpers.CriterioBusqueda;
+import Helpers.CriterioBusquedaId;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import Repositories.EstudianteRepository;
@@ -39,6 +42,16 @@ public class StudentController {
 
         result = er.find();
         return result;
+    }
+
+    @GetMapping("/{id}")
+    public List<Estudiante> getById(@PathVariable int id){
+
+        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
+        EstudianteRepository er = repositoryFactory.getEstudianteRepository();
+        CriterioBusqueda crit = new CriterioBusquedaId(id, 'e');
+
+        return er.findByCriterio(crit);
     }
 
     @PostMapping

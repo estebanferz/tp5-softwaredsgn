@@ -6,6 +6,7 @@ import Modelos.Inscripcion;
 import Repositories.InscripcionRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,26 @@ public class JPAInscripcionRepository extends JPABaseRepository<Inscripcion, Int
         em.getTransaction().commit();
     }
 
-    public void setFechaGrauacion(Estudiante estudiante, Carrera carrera, Date fecha_graduacion) {
+    public void matricular(int id_estudiante, Carrera carrera){
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8081/student/" + id_estudiante;
+        Estudiante[] estudiante = restTemplate.getForObject(url, Estudiante[].class);
+        
+        em.getTransaction().begin();
+
+        String jqpl = "INSERT INTO Inscripcion (inscripcion_id_estudiante, inscripcion_id_carrera, fecha_inscripcion, fecha_graduacion) VALUES (?1, ?2, ?3, ?4)";
+
+        try {
+            em.createQuery(jqpl).setParameter(1,  estudiante[0].getId()).setParameter(2, carrera.getId()).setParameter(3, new Date()).setParameter(4, null).executeUpdate();
+        } catch (Exception e) {
+            System.out.println(estudiante[0].getNombre() + " ya esta matriculado en " + carrera.getNombre());
+        }
+
+        em.getTransaction().commit();
+    }
+
+    public void setFechaGraduacion(Estudiante estudiante, Carrera carrera, Date fecha_graduacion) {
         em.getTransaction().begin();
 
         String jqpl = "UPDATE Inscripcion i SET i.fecha_graduacion = :fecha_graduacion WHERE i.inscripcion_id_estudiante = :id_estudiante and i.inscripcion_id_carrera = :id_carrera";
