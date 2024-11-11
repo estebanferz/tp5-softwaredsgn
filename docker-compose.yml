@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  student-service:
+    build:
+      context: ./student  # Directorio para el servicio "student"
+    image: student-service:latest
+    ports:
+      - "8081:8080"  # Mapea el puerto 8081 en el host al puerto 8080 en el contenedor
+    networks:
+      - my-network
+    depends_on:
+      - StudentDB  # El servicio de estudiante depende de la base de datos
+
+  inscription-service:
+    build:
+      context: ./inscription  # Directorio para el servicio "career"
+    image: career-service:latest
+    ports:
+      - "8082:8080"  # Mapea el puerto 8082 en el host al puerto 8080 en el contenedor
+    networks:
+      - my-network
+    depends_on:
+      - InscriptionDB  # El servicio de carrera también depende de la base de datos
+
+  StudentDB:
+    image: postgres:latest  # Base de datos PostgreSQL
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: StudentDB
+    ports:
+      - "5433:5432"  # Puerto estándar de PostgreSQL
+    networks:
+      - my-network
+  
+  InscriptionDB:
+    image: postgres:latest  # Base de datos PostgreSQL
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: InscriptionDB
+    ports:
+      - "5434:5432"  # Puerto estándar de PostgreSQL
+    networks:
+      - my-network
+
+networks:
+  my-network:  # Red personalizada para la comunicación entre los servicios
+    driver: bridge
+
