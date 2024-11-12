@@ -1,7 +1,7 @@
 package Repositories.JPAImplementation;
 
-import Modelos.Carrera;
-import Modelos.Estudiante;
+import Helpers.Carrera;
+import Helpers.Estudiante;
 import Modelos.Inscripcion;
 import Repositories.InscripcionRepository;
 import jakarta.persistence.EntityManager;
@@ -35,15 +35,15 @@ public class JPAInscripcionRepository extends JPABaseRepository<Inscripcion, Int
     public void matricular(int id_estudiante, Carrera carrera){
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8081/student/" + id_estudiante;
+        String url = "http://student-service:8080/student/" + id_estudiante;
         Estudiante[] estudiante = restTemplate.getForObject(url, Estudiante[].class);
-        
+        System.out.println(estudiante[0]);
         em.getTransaction().begin();
 
         String jqpl = "INSERT INTO Inscripcion (inscripcion_id_estudiante, inscripcion_id_carrera, fecha_inscripcion, fecha_graduacion) VALUES (?1, ?2, ?3, ?4)";
 
         try {
-            em.createQuery(jqpl).setParameter(1,  estudiante[0].getId()).setParameter(2, carrera.getId()).setParameter(3, new Date()).setParameter(4, null).executeUpdate();
+            em.createNativeQuery(jqpl).setParameter(1,  estudiante[0].getId()).setParameter(2, carrera.getId()).setParameter(3, new Date()).setParameter(4, null).executeUpdate();
         } catch (Exception e) {
             System.out.println(estudiante[0].getNombre() + " ya esta matriculado en " + carrera.getNombre());
         }

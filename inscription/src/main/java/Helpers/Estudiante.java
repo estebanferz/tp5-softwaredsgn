@@ -1,40 +1,19 @@
-package Modelos;
+package Helpers;
 
 import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "estudiante")
 public class Estudiante {
-    @Id
-    @Column(name = "id_estudiante")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    
     private int id;
-
-    @Column(name = "nombre", nullable = false)
     private String nombre;
-
-    @Column(name = "apellido", nullable = false)
     private String apellido;
-
-    @Column(name = "edad", nullable = false)
     private int edad;
-
-    @Column(name = "genero", nullable = false)
     private char genero;
-
-    @Column(name = "dni", nullable = false)
     private int dni;
-
-    @Column(name = "ciudad", nullable = false)
     private String ciudad;
-
-    @Column(name = "libreta", nullable = false)
     private int libreta;
-
-    @OneToMany(mappedBy = "estudiante")
-    private Set<Inscripcion> inscripciones;
 
     public Estudiante() {
     }

@@ -33,9 +33,6 @@ public class Estudiante {
     @Column(name = "libreta", nullable = false)
     private int libreta;
 
-    @OneToMany(mappedBy = "estudiante")
-    private Set<Inscripcion> inscripciones;
-
     public Estudiante() {
     }
 

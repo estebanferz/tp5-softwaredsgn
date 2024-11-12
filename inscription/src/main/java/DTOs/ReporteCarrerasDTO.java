@@ -1,7 +1,7 @@
 package DTOs;
 
-import Modelos.Carrera;
-import Modelos.Estudiante;
+import Helpers.Carrera;
+import Helpers.Estudiante;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -27,6 +27,9 @@ public class ReporteCarrerasDTO {
 
         public ItemReporte(Carrera carrera) {
             this.carrera = carrera;
+            estudiantes = new ArrayList<>();
+        }
+        public ItemReporte() {
             estudiantes = new ArrayList<>();
         }
 

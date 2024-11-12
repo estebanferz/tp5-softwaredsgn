@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Modelos.Estudiante;
-import Modelos.Carrera;
+import Helpers.Estudiante;
+import Helpers.Carrera;
 import Modelos.Inscripcion;
 import Factories.JPARepositoryFactory;
-import Repositories.EstudianteRepository;
 import Repositories.InscripcionRepository;
 import Helpers.CriterioOrdenamiento;
 import Helpers.CriterioOrdenamientoNombre;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import Repositories.JPAImplementation.JPAEstudianteRepository;
 
 @RestController
 @RequestMapping("/inscription")

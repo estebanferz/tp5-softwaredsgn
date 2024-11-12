@@ -16,14 +16,6 @@ public class Inscripcion {
     @Column(name = "inscripcion_id_carrera")
     private int inscripcion_id_carrera;
 
-    @ManyToOne
-    @JoinColumn(name = "inscripcion_id_estudiante", insertable = false, updatable = false)
-    private Estudiante estudiante;
-
-    @ManyToOne
-    @JoinColumn(name = "inscripcion_id_carrera", insertable = false, updatable = false)
-    private Carrera carrera;
-
     @Column(name = "fecha_inscripcion", nullable = false)
     private Date fecha_inscripcion;
 
@@ -36,10 +28,6 @@ public class Inscripcion {
 
     public Date getGraduacion(){
         return fecha_graduacion;
-    }
-
-    public Carrera getCarrera(){
-        return this.carrera;
     }
 
     public int getIdEstudiante(){

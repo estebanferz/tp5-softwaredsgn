@@ -1,22 +1,14 @@
-package Modelos;
+package Helpers;
 
 import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "carrera")
+
 public class Carrera {
-    @Id
-    @Column(name = "id_carrera")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int id;
-
-    @Column(name = "nombre")
     private String nombre;
-
-    @OneToMany(mappedBy = "carrera")
-    private Set<Inscripcion> inscripciones;
 
     public Carrera() {
     }

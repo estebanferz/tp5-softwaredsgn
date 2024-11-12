@@ -1,7 +1,7 @@
 package Repositories;
 
-import Modelos.Carrera;
-import Modelos.Estudiante;
+import Helpers.Carrera;
+import Helpers.Estudiante;
 import Modelos.Inscripcion;
 
 import java.util.List;

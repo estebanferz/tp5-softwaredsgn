@@ -1,10 +1,6 @@
 package Factories;
 
-import Repositories.CarreraRepository;
-import Repositories.EstudianteRepository;
 import Repositories.InscripcionRepository;
-import Repositories.JPAImplementation.JPACarreraRepository;
-import Repositories.JPAImplementation.JPAEstudianteRepository;
 import Repositories.JPAImplementation.JPAInscripcionRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -25,18 +21,9 @@ public class JPARepositoryFactory extends RepositoryFactory {
 
         return instance;
     }
-    @Override
-    public EstudianteRepository getEstudianteRepository() {
-        return new JPAEstudianteRepository(em);
-    }
 
     @Override
     public InscripcionRepository getInscripcionRepository() {
         return new JPAInscripcionRepository(em);
-    }
-
-    @Override
-    public CarreraRepository getCarreraRepository() {
-        return new JPACarreraRepository(em);
     }
 }
