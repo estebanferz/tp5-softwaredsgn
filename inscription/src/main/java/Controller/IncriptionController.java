@@ -59,4 +59,26 @@ public class IncriptionController {
 
         return ir.findByCriterio(crit);
     }
+
+    @DeleteMapping("/carrera/{id}")
+    public Map<String, String> deleteInscriptionsForCarrera(@PathVariable int id){
+        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
+        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
+        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_carrera");
+        ir.deleteByCriterio(crit);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "inscripciones de la carrera eliminadas");
+        return response;
+    }
+
+    @DeleteMapping("/student/{id}")
+    public Map<String, String> deleteInscriptionsForStudent(@PathVariable int id){
+        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
+        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
+        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_estudiante");
+        ir.deleteByCriterio(crit);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "inscripciones del estudiante eliminadas");
+        return response;
+    }
 }

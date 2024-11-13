@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import Repositories.EstudianteRepository;
 import Repositories.JPAImplementation.JPAEstudianteRepository;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/student")
@@ -38,17 +39,23 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public List<Estudiante> getById(@PathVariable int id){
+    public Estudiante getById(@PathVariable int id){
 
         JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
         EstudianteRepository er = repositoryFactory.getEstudianteRepository();
         CriterioBusqueda crit = new CriterioBusquedaId(id, 'e');
 
-        return er.findByCriterio(crit);
+        return er.findByCriterio(crit).get(0);
     }
 
     @DeleteMapping("/{id}")
     public Map<String, String> deleteById(@PathVariable int id){
+        // Borrar las inscripciones de un usuario
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://inscription-service:8080/inscription/student/{id}";
+        restTemplate.delete(url, id);
+
+        // Borrar al ususario de la DB
         JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
         EstudianteRepository er = repositoryFactory.getEstudianteRepository();
         er.delete(id);

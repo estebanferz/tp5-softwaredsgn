@@ -6,11 +6,13 @@ import Helpers.Estudiante;
 import Modelos.Inscripcion;
 import Repositories.InscripcionRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import Helpers.CriterioOrdenamiento;
 
@@ -38,7 +40,10 @@ public class JPAInscripcionRepository extends JPABaseRepository<Inscripcion, Int
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://student-service:8080/student/" + id_estudiante;
         Estudiante[] estudiante = restTemplate.getForObject(url, Estudiante[].class);
-        System.out.println(estudiante[0]);
+        if (estudiante == null || estudiante.length == 0) {
+            throw new RuntimeException("No existe el estudiante");
+        }
+
         em.getTransaction().begin();
 
         String jqpl = "INSERT INTO Inscripcion (inscripcion_id_estudiante, inscripcion_id_carrera, fecha_inscripcion, fecha_graduacion) VALUES (?1, ?2, ?3, ?4)";
@@ -83,5 +88,14 @@ public class JPAInscripcionRepository extends JPABaseRepository<Inscripcion, Int
         TypedQuery<Inscripcion> query = em.createQuery(jqpl, this.entityClass);
 
         return query.getResultList();
+    }
+
+    @Override
+    public void deleteByCriterio(CriterioBusqueda criterioBusqueda) {
+        em.getTransaction().begin();
+        String jqpl = "delete from Inscripcion i where " + criterioBusqueda.getCriterioBusqueda();
+        Query query = em.createQuery(jqpl);
+        query.executeUpdate();
+        em.getTransaction().commit();
     }
 }

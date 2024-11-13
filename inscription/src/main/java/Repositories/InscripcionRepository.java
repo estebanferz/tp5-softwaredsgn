@@ -7,6 +7,8 @@ import Modelos.Inscripcion;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
+
 import Helpers.CriterioOrdenamiento;
 
 public interface InscripcionRepository extends GenericRepository<Inscripcion, Integer> {
@@ -16,4 +18,5 @@ public interface InscripcionRepository extends GenericRepository<Inscripcion, In
     Inscripcion findById(int id_carrera, int id_estudiante);
     List<Inscripcion> getAllCarrerasOrdenadas(CriterioOrdenamiento crit);
     List<Inscripcion> findByCriterio(CriterioBusqueda criterioBusqueda);
+    void deleteByCriterio(CriterioBusqueda criterioBusqueda);
 }
