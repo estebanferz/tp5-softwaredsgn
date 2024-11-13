@@ -1,6 +1,7 @@
 package Repositories.JPAImplementation;
 
 import Helpers.Carrera;
+import Helpers.CriterioBusqueda;
 import Helpers.Estudiante;
 import Modelos.Inscripcion;
 import Repositories.InscripcionRepository;
@@ -74,5 +75,13 @@ public class JPAInscripcionRepository extends JPABaseRepository<Inscripcion, Int
         String q = "SELECT i FROM Inscripcion i ORDER BY " + crit.getCriterioOrdenamiento();
         TypedQuery<Inscripcion> result = em.createQuery(q, this.entityClass);
         return result.getResultList();
+    }
+
+    public List<Inscripcion> findByCriterio(CriterioBusqueda criterioBusqueda){
+        String jqpl = "select i from Inscripcion i where " + criterioBusqueda.getCriterioBusqueda();
+
+        TypedQuery<Inscripcion> query = em.createQuery(jqpl, this.entityClass);
+
+        return query.getResultList();
     }
 }

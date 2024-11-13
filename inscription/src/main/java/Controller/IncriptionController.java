@@ -5,20 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Helpers.Estudiante;
-import Helpers.Carrera;
+import Helpers.*;
 import Modelos.Inscripcion;
 import Factories.JPARepositoryFactory;
 import Repositories.InscripcionRepository;
-import Helpers.CriterioOrdenamiento;
-import Helpers.CriterioOrdenamientoNombre;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/inscription")
@@ -31,14 +23,14 @@ public class IncriptionController {
         return response;
     }
 
-    @PostMapping("/post-inscription")
+    @PostMapping
     public void postInscription(@RequestParam int id_estudiante, @RequestBody Carrera c){
         JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
         InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
         ir.matricular(id_estudiante, c);
     }
 
-    @GetMapping("/all-inscriptions")
+    @GetMapping("/all")
     public List<Inscripcion> getInscriptions(){
         
         JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
@@ -47,5 +39,24 @@ public class IncriptionController {
         System.out.println(ir.getAllCarrerasOrdenadas(crit));
 
         return ir.getAllCarrerasOrdenadas(crit);
+    }
+
+    @GetMapping("/carrera/{id}")
+    public List<Inscripcion> getInscriptionsForCarrera(@PathVariable int id){
+
+        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
+        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
+        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_carrera");
+
+        return ir.findByCriterio(crit);
+    }
+
+    @GetMapping("/student/{id}")
+    public List<Inscripcion> getInscriptionsForStudent(@PathVariable int id){
+        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
+        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
+        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_estudiante");
+
+        return ir.findByCriterio(crit);
     }
 }

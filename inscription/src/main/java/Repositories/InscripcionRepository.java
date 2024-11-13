@@ -1,6 +1,7 @@
 package Repositories;
 
 import Helpers.Carrera;
+import Helpers.CriterioBusqueda;
 import Helpers.Estudiante;
 import Modelos.Inscripcion;
 
@@ -14,5 +15,5 @@ public interface InscripcionRepository extends GenericRepository<Inscripcion, In
     void setFechaGraduacion(Estudiante estudiante, Carrera carrera, Date fecha_graduacion);
     Inscripcion findById(int id_carrera, int id_estudiante);
     List<Inscripcion> getAllCarrerasOrdenadas(CriterioOrdenamiento crit);
-
+    List<Inscripcion> findByCriterio(CriterioBusqueda criterioBusqueda);
 }
