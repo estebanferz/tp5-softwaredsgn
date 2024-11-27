@@ -9,76 +9,48 @@ import Helpers.*;
 import Modelos.Inscripcion;
 import Factories.JPARepositoryFactory;
 import Repositories.InscripcionRepository;
+import main.java.Services.InscriptionService;
 
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/inscription")
 public class IncriptionController {
+
+    private InscriptionService is = new InscriptionService();
     
     @GetMapping
     public Map<String, String> index(){
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Inscription index!");
-        return response;
+        return is.getIndex();
     }
 
     @PostMapping
     public void postInscription(@RequestParam int id_estudiante, @RequestBody Carrera c){
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        ir.matricular(id_estudiante, c);
+        is.postInscription(id_estudiante, c);
     }
 
     @GetMapping("/all")
     public List<Inscripcion> getInscriptions(){
-        
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        CriterioOrdenamiento crit = new CriterioOrdenamientoNombre('i');
-        System.out.println(ir.getAllCarrerasOrdenadas(crit));
-
-        return ir.getAllCarrerasOrdenadas(crit);
+        return is.getAllInscriptions();
     }
 
     @GetMapping("/carrera/{id}")
     public List<Inscripcion> getInscriptionsForCarrera(@PathVariable int id){
-
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_carrera");
-
-        return ir.findByCriterio(crit);
+        return is.getInscriptionForCarrera(id);
     }
 
     @GetMapping("/student/{id}")
     public List<Inscripcion> getInscriptionsForStudent(@PathVariable int id){
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_estudiante");
-
-        return ir.findByCriterio(crit);
+        return is.getInscriptionsForEstudiante(id);
     }
 
     @DeleteMapping("/carrera/{id}")
     public Map<String, String> deleteInscriptionsForCarrera(@PathVariable int id){
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_carrera");
-        ir.deleteByCriterio(crit);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "inscripciones de la carrera eliminadas");
-        return response;
+        return is.deleteInscriptionsForCarrera(id);
     }
 
     @DeleteMapping("/student/{id}")
     public Map<String, String> deleteInscriptionsForStudent(@PathVariable int id){
-        JPARepositoryFactory repositoryFactory = JPARepositoryFactory.getInstance();
-        InscripcionRepository ir = repositoryFactory.getInscripcionRepository();
-        CriterioBusqueda crit = new CriterioBusquedaId(id, 'i', "inscripcion_id_estudiante");
-        ir.deleteByCriterio(crit);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "inscripciones del estudiante eliminadas");
-        return response;
+        return is.deleteInscriptionsForEstudiante(id);
     }
 }
