@@ -26,17 +26,21 @@ public class InscriptionService {
         return response;
     }
 
-    public void postInscription(int id_estudiante, Carrera c){
-        
+    public Map<String,String> postInscription(int id_estudiante, Carrera c){
+        Map<String, String> response = new HashMap<>();
+
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://student-service:8080/student/" + id_estudiante;
         Estudiante[] estudiante = restTemplate.getForObject(url, Estudiante[].class);
 
         if (estudiante == null || estudiante.length == 0) {
-            throw new RuntimeException("No existe el estudiante");
+            response.put("message", "No existe el estudiante");
+        } else {
+            ir.matricular(estudiante[0], c);
+            response.put("message", "estudiante matriculado");
         }
 
-        ir.matricular(estudiante[0], c);
+        return response;
     }
 
     public List<Inscripcion> getAllInscriptions(){

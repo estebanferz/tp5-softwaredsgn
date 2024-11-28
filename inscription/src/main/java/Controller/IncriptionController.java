@@ -25,8 +25,8 @@ public class IncriptionController {
     }
 
     @PostMapping
-    public void postInscription(@RequestParam int id_estudiante, @RequestBody Carrera c){
-        is.postInscription(id_estudiante, c);
+    public Map<String,String> postInscription(@RequestParam int id_estudiante, @RequestBody Carrera c){
+        return is.postInscription(id_estudiante, c);
     }
 
     @GetMapping("/all")
